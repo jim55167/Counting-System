@@ -4,7 +4,6 @@
       <div class="row left">
         <div class="side-bar d-flex">
           <div class="time">
-            <!-- <p class="mb-2">目前時間：<span class="change-time" style="color:red;">{{ this.currentTime }}</span></p> -->
             <p>更新時間：<span class="change-time">{{ this.changeTime }}</span></p>
           </div>
           <h1>預設<span class="second">{{ countdownTime }}</span>秒更新</h1>
@@ -38,86 +37,9 @@
         </div>
       </div>
       <div class="container right">
-        <div class="card-header">
-          <ul class="nav nav-tabs card-header-tabs">
-            <li class="nav-item">
-              <router-link class="nav-link" to="/FtvSystem" :class="{'active' : visibility == 'pageOne'}"
-                @click="visibility = 'pageOne'">外場一</router-link>
-            </li>
-            <li class="nav-item">
-              <router-link class="nav-link" to="/FtvSystemPage" :class="{'active' : visibility == 'pageTwo'}"
-                @click="visibility = 'pageTwo'">外場二</router-link>
-            </li>
-          </ul>
-        </div>
+        <Pagerouter :visi-bility = "visibility"></Pagerouter>
         <table>
-          <thead>
-            <tr class="title">
-              <th class="click btn-color" @click="starSort('AreaName')">地區
-                <span class="icon" :class="{'inverse': isReverse}" v-if="sortName === 'AreaName'">
-                  <i class=" fas fa-angle-up text-success"></i>
-                </span>
-              </th>
-              <th class="click btn-color" @click="starSort('SpotNo')">投開票所
-                <span class="icon" :class="{'inverse': isReverse}" v-if="sortName === 'SpotNo'">
-                  <i class=" fas fa-angle-up text-success"></i>
-                </span>
-              </th>
-              <th class="click btn-color" @click="starSort('Name')">姓名
-                <span class="icon" :class="{'inverse': isReverse}" v-if="sortName === 'Name'">
-                  <i class=" fas fa-angle-up text-success"></i>
-                </span>
-              </th>
-              <th class="click btn-color" @click="starSort('Phone')">手機
-                <span class="icon" :class="{'inverse': isReverse}" v-if="sortName === 'Phone'">
-                  <i class=" fas fa-angle-up text-success"></i>
-                </span>
-              </th>
-              <th class="click btn-color" @click="starSort('LoginDate')">報到/登入
-                <span class="icon" :class="{'inverse': isReverse}" v-if="sortName === 'LoginDate'">
-                  <i class=" fas fa-angle-up text-success"></i>
-                </span>
-              </th>
-              <th class="click btn-color" @click="starSort('AgreeTickets')">同意
-                <span class="icon" :class="{'inverse': isReverse}" v-if="sortName === 'AgreeTickets'">
-                  <i class=" fas fa-angle-up text-success"></i>
-                </span>
-              </th>
-              <th class="click btn-color" @click="starSort('RejectTickets')">不同意
-                <span class="icon" :class="{'inverse': isReverse}" v-if="sortName === 'RejectTickets'">
-                  <i class=" fas fa-angle-up text-success"></i>
-                </span>
-              </th>
-              <th class="click btn-color" @click="starSort('InvalidTickets')">無效票
-                <span class="icon" :class="{'inverse': isReverse}" v-if="sortName === 'InvalidTickets'">
-                  <i class=" fas fa-angle-up text-success"></i>
-                </span>
-              </th>
-              <th class="click btn-color" @click="starSort('UpdateDate')">輸入時間
-                <span class="icon" :class="{'inverse': isReverse}" v-if="sortName === 'UpdateDate'">
-                  <i class=" fas fa-angle-up text-success"></i>
-                </span>
-              </th>
-              <th class="click btn-color" @click="starSort('Done')">結束
-                <span class="icon" :class="{'inverse': isReverse}" v-if="sortName === 'Done'">
-                  <i class=" fas fa-angle-up text-success"></i>
-                </span>
-              </th>
-            </tr>
-            <tr class="material" v-for="(items, index) in sortData" :key="index"
-            :class="{'active': currentIndex === items.SpotNo}" @click="liclick(items.SpotNo)">
-              <td>{{ items.AreaName }}</td>
-              <td>{{ items.SpotNo }}</td>
-              <td>{{ items.Name }}</td>
-              <td>{{ items.Phone }}</td>
-              <td>{{ items.LoginDate ? moment(items.LoginDate).format("HH:mm:ss") : null }}</td>
-              <td>{{ items.AgreeTickets }}</td>
-              <td>{{ items.RejectTickets }}</td>
-              <td>{{ items.InvalidTickets }}</td>
-              <td>{{ items.UpdateDate ? moment(items.UpdateDate).format("HH:mm:ss") : null }}</td>
-              <td>{{ items.Done }}</td>
-            </tr>
-          </thead>
+          <Filterdata :filter-data="newPageData"></Filterdata>
         </table>
       </div>
     </div>
@@ -126,17 +48,20 @@
 </template>
 
 <script>
-  import moment from 'moment';
-  moment().format();
+  import dayjs from 'dayjs'
+  import Filterdata from '@/components/Filterdata'
+  import Pagerouter from '@/components/Pagerouter'
 
   export default {
+    components: {
+      Filterdata,
+      Pagerouter
+    },
     data() {
       return {
         timerTime: 8,
         newPageData: [],
         isDisabled: false,
-        sortName: "",
-        isReverse: false,
         currentTime: "",
         changeTime: '',
         timerIsRunning: false,
@@ -144,7 +69,6 @@
         timer: '',
         countdownTime: 8,
         visibility: 'pageTwo',
-        currentIndex: String,
         stats: {
           notLogin: Number,
           totalPerson: Number,
@@ -154,9 +78,8 @@
       }
     },
     methods: {
-      moment,
       getData() {
-        const Api = `https://melect.ftv.com.tw/ElectApi/ElectForMonitor/GetMonitorTicket2`
+        const Api = `${process.env.VUE_APP_APIPATH}/ElectApi/ElectGontoForMonitor/GetMonitorTicket2`
         this.axios.get(Api).then(response => {
             if (response.status === 200 || response.data.IsSuccess === true) {
               let responseTime = response.data.ResponseTime
@@ -166,11 +89,11 @@
               res.forEach(oldData => {
                 oldData.Done != true ? oldData.Done = '' : oldData.Done = 'Y'
                 if (oldData.LoginDate != null) {
-                  let logTime = moment(oldData.LoginDate).valueOf() //登入時間
+                  let logTime = dayjs(oldData.LoginDate).valueOf() //登入時間
                   oldData.LoginDate = logTime
                 }
                 if (oldData.UpdateDate != null) {
-                  let upTime = moment(oldData.UpdateDate).valueOf() //上傳時間
+                  let upTime = dayjs(oldData.UpdateDate).valueOf() //上傳時間
                   oldData.UpdateDate = upTime
                 }
               })
@@ -224,7 +147,7 @@
       // },
       clearTimer2() {
         clearInterval(this.exitTime);
-        this.countdownTime = 0
+        this.countdownTime = 8
         this.isDisabled = !this.isDisabled
       },
       // clickPause() {
@@ -244,27 +167,8 @@
       //   this.countdownTime = 0
       //   clearInterval(this.exitTime);
       // },
-      starSort(name) {
-        this.isReverse = !this.isReverse
-        this.sortName = name
-      },
-      liclick(index) {
-        this.currentIndex = index
-      },
     },
     computed: {
-      sortData() {
-        let sort = this.newPageData.slice().sort((a, b) => {
-          if (a[this.sortName] < b[this.sortName]) {
-            return this.isReverse ? -1 : 1;
-          }
-          if (a[this.sortName] > b[this.sortName]) {
-            return this.isReverse ? 1 : -1;
-          }
-          return 0;
-        });
-        return sort;
-      },
       btnDisabled() {
         return this.isDisabled ? true : false
       }

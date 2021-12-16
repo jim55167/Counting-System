@@ -237,7 +237,8 @@
             .material {
 
                 &.active {
-                    background-color: blue;
+                    background-color: rgb(33, 192, 46);
+                    cursor: pointer;
                     color: #fff;
                 }
 

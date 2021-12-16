@@ -6,6 +6,7 @@ import axios from 'axios'
 import VueAxios from 'vue-axios'
 import VueRouter from 'vue-router'
 import router from './router'
+import './utils/dayjs'
 import 'bootstrap'
 
 Vue.config.productionTip = false
