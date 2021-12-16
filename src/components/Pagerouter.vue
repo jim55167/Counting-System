@@ -22,13 +22,14 @@
 </template>
 
 <script>
-export default {
+  export default {
     name: "router",
     props: {
-        visiBility : {
-            type: String,
-            required: true,
-        }
+      visiBility: {
+        type: String,
+        required: true,
+      }
     },
-}
+  }
+
 </script>

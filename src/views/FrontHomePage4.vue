@@ -72,13 +72,11 @@
         const Api = `${process.env.VUE_APP_APIPATH}/ElectApi/ElectGontoForMonitor/GetMonitorTicket4`
         this.axios.get(Api)
           .then(response => {
-            console.log(response);
             if (response.status === 200 || response.data.IsSuccess === true) {
               let responseTime = response.data.ResponseTime
               let getresponseTime = responseTime.substring(11, 19).replace(/\:/g, "：")
               this.changeTime = getresponseTime
               let res = response.data.Data
-              // console.log(res);
               res.forEach(oldData => {
                 oldData.Done != true ? oldData.Done = '' : oldData.Done = 'Y'
                 if (oldData.LoginDate != null) {

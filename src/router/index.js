@@ -2,21 +2,27 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 
 Vue.use(VueRouter)
-
-const routes = [{
+//https://elect.ftv.com.tw/monitor/FtvSystem
+const routes = [
+  {
     path: '*',
-    redirect: '/'
+    redirect: '/',
   },
   {
-    path: '/monitor',
-    name: 'monitor',
-    component: () => import('@/views/FrontHome')
+    path: '/',
+    redirect: '/FtvSystem'
   },
+  // {
+  //   path: '/monitor',
+  //   name: 'monitor',
+  //   component: () => import('@/views/FrontEnd')
+  // },
   {
-    path: '/monitor',
+    path: '/',
     name: 'FrontEnd',
     component: () => import('@/views/FrontEnd'),
-    children: [{
+    children: [
+      {
         path: 'FtvSystem',
         name: 'FrontHome',
         component: () => import('@/views/FrontHome')
@@ -42,7 +48,8 @@ const routes = [{
 
 const router = new VueRouter({
   mode: 'history',
-  routes
+  base: '/monitor',
+  routes,
 })
 
 export default router

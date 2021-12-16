@@ -77,7 +77,6 @@
               let getresponseTime = responseTime.substring(11, 19).replace(/\:/g, "：")
               this.changeTime = getresponseTime
               let res = response.data.Data
-              // console.log(res);
               res.forEach(oldData => {
                 oldData.Done != true ? oldData.Done = '' : oldData.Done = 'Y'
                 if (oldData.LoginDate != null) {
