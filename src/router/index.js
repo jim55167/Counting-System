@@ -2,53 +2,44 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 
 Vue.use(VueRouter)
-//https://elect.ftv.com.tw/monitor/FtvSystem
+
 const routes = [
   {
-    path: '*',
-    redirect: '/',
+    path: '/',
+    redirect: '/taipei1',
   },
   {
     path: '/',
-    redirect: '/FtvSystem'
-  },
-  // {
-  //   path: '/monitor',
-  //   name: 'monitor',
-  //   component: () => import('@/views/FrontEnd')
-  // },
-  {
-    path: '/',
-    name: 'FrontEnd',
-    component: () => import('@/views/FrontEnd'),
+    name: 'Home',
+    component: () => import('@/views/Home'),
     children: [
       {
-        path: 'FtvSystem',
-        name: 'FrontHome',
-        component: () => import('@/views/FrontHome')
+        path: "taipei1",
+        component: () => import('@/components/filter/Taipei1')
       },
       {
-        path: 'FtvSystemPage2',
-        name: 'HomePage2',
-        component: () => import('@/views/FrontHomePage2')
+        path: "taipei2",
+        component: () => import('@/components/filter/Taipei2')
       },
       {
-        path: 'FtvSystemPage3',
-        name: 'HomePage3',
-        component: () => import('@/views/FrontHomePage3')
+        path: "taichung1",
+        component: () => import('@/components/filter/Taichung1')
       },
       {
-        path: 'FtvSystemPage4',
-        name: 'HomePage4',
-        component: () => import('@/views/FrontHomePage4')
+        path: "taichung2",
+        component: () => import('@/components/filter/Taichung2')
       }
     ]
-  }
+  },
+  // {
+  //   path: '/:id',
+  //   name: 'RouterAlive',
+  //   component: () => import('@/views/Home'),
+  // }
 ]
 
 const router = new VueRouter({
   mode: 'history',
-  base: '/monitor',
   routes,
 })
 

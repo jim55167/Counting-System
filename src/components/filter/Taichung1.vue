@@ -1,11 +1,6 @@
 <template>
   <thead>
     <tr class="title">
-      <th class="click btn-color" @click="starSort('CaseNo')">案號
-        <span class="icon" :class="{'inverse': isReverse}" v-if="sortName === 'CaseNo'">
-          <i class=" fas fa-angle-up text-success"></i>
-        </span>
-      </th>
       <th class="click btn-color" @click="starSort('AreaName')">地區
         <span class="icon" :class="{'inverse': isReverse}" v-if="sortName === 'AreaName'">
           <i class=" fas fa-angle-up text-success"></i>
@@ -31,21 +26,31 @@
           <i class=" fas fa-angle-up text-success"></i>
         </span>
       </th>
-      <th class="click btn-color" @click="starSort('AgreeTickets')">同意
-        <span class="icon" :class="{'inverse': isReverse}" v-if="sortName === 'AgreeTickets'">
+      <th class="click btn-color" @click="starSort('Tickets1')">顏寬恒
+        <span class="icon" :class="{'inverse': isReverse}" v-if="sortName === 'Tickets1'">
           <i class=" fas fa-angle-up text-success"></i>
         </span>
       </th>
-      <th class="click btn-color" @click="starSort('RejectTickets')">不同意
-        <span class="icon" :class="{'inverse': isReverse}" v-if="sortName === 'RejectTickets'">
+      <th class="click btn-color" @click="starSort('Tickets2')">林靜儀
+        <span class="icon" :class="{'inverse': isReverse}" v-if="sortName === 'Tickets2'">
           <i class=" fas fa-angle-up text-success"></i>
         </span>
       </th>
-      <!-- <th class="click btn-color" @click="starSort('InvalidTickets')">無效票
-        <span class="icon" :class="{'inverse': isReverse}" v-if="sortName === 'InvalidTickets'">
+      <th class="click btn-color" @click="starSort('Tickets3')">林金連
+        <span class="icon" :class="{'inverse': isReverse}" v-if="sortName === 'Tickets3'">
           <i class=" fas fa-angle-up text-success"></i>
         </span>
-      </th> -->
+      </th>
+      <th class="click btn-color" @click="starSort('Tickets4')">李昇翰
+        <span class="icon" :class="{'inverse': isReverse}" v-if="sortName === 'Tickets4'">
+          <i class=" fas fa-angle-up text-success"></i>
+        </span>
+      </th>
+      <th class="click btn-color" @click="starSort('Tickets5')">張烱春
+        <span class="icon" :class="{'inverse': isReverse}" v-if="sortName === 'Tickets5'">
+          <i class=" fas fa-angle-up text-success"></i>
+        </span>
+      </th>
       <th class="click btn-color" @click="starSort('UpdateDate')">輸入時間
         <span class="icon" :class="{'inverse': isReverse}" v-if="sortName === 'UpdateDate'">
           <i class=" fas fa-angle-up text-success"></i>
@@ -58,17 +63,18 @@
       </th>
     </tr>
     <tr class="material" v-for="(datum, index) in sortData" :key="index"
-      :class="{'active': isActive ? currentIndex.case === datum.CaseNo &&  currentIndex.spot === datum.SpotNo: ''}"
-      @click="liclick(datum.SpotNo, datum.CaseNo)">
-      <td>{{ datum.CaseNo }}</td>
+      :class="{'active': isActive ? currentIndex.name === datum.Name &&  currentIndex.spot === datum.SpotNo: ''}"
+      @click="liclick(datum.SpotNo, datum.Name)">
       <td>{{ datum.AreaName }}</td>
       <td>{{ datum.SpotNo }}</td>
       <td>{{ datum.Name }}</td>
       <td>{{ datum.Phone }}</td>
       <td>{{ datum.LoginDate ? dayjs(datum.LoginDate).format("HH:mm:ss") : null }}</td>
-      <td>{{ datum.AgreeTickets }}</td>
-      <!-- <td>{{ datum.RejectTickets }}</td> -->
-      <td>{{ datum.InvalidTickets }}</td>
+      <td>{{ datum.Tickets1 }}</td>
+      <td>{{ datum.Tickets2 }}</td>
+      <td>{{ datum.Tickets3 }}</td>
+      <td>{{ datum.Tickets4 }}</td>
+      <td>{{ datum.Tickets5 }}</td>
       <td>{{ datum.UpdateDate ? dayjs(datum.UpdateDate).format("HH:mm:ss") : null }}</td>
       <td>{{ datum.Done }}</td>
     </tr>
@@ -79,7 +85,7 @@
   import dayjs from 'dayjs'
 
   export default {
-    name: 'filterData',
+    name: 'taichung1',
     data() {
       return {
         isReverse: false,
@@ -89,7 +95,7 @@
       }
     },
     props: {
-      filterData: {
+      taichung1: {
         type: Array,
         required: true
       }
@@ -100,19 +106,19 @@
         this.isReverse = !this.isReverse
         this.sortName = name
       },
-      liclick(spotno, caseno) {
+      liclick(spotno, name) {
         this.isActive = !this.isActive
-        if (spotno && caseno) {
+        if (spotno && name) {
           this.currentIndex = {
             spot: spotno,
-            case: caseno
+            name: name
           }
         }
       }
     },
     computed: {
       sortData() {
-        let sort = this.filterData.slice().sort((a, b) => {
+        let sort = this.taichung1.slice().sort((a, b) => {
           if (a[this.sortName] < b[this.sortName]) {
             return this.isReverse ? -1 : 1;
           }
@@ -123,6 +129,9 @@
         });
         return sort;
       },
+    },
+    created() {
+
     }
   }
 

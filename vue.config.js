@@ -4,4 +4,5 @@ module.exports = {
   // 因此需要多設置該屬性
   // 官方文件：https://cli.vuejs.org/zh/config/#publicpath
   publicPath: './'
+  // indexPath: 'xxx.html',
 }

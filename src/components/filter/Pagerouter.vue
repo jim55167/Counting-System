@@ -1,5 +1,5 @@
 <template>
-  <div class="card-header">
+  <!-- <div class="card-header">
     <ul class="nav nav-tabs card-header-tabs">
       <li class="nav-item">
         <router-link class="nav-link" to="/FtvSystem" :class="{'active' : visiBility == 'pageOne'}"
@@ -18,18 +18,36 @@
           @click="visiBility = 'pageFour'">外場四</router-link>
       </li>
     </ul>
+  </div> -->
+
+  <div class="card-header">
+    <ul class="nav nav-tabs card-header-tabs">
+      <li class="nav-item">
+        <router-link class="nav-link" to="/taipei1" :class="{'active' : $route.path == '/taipei1'}">罷免一</router-link>
+      </li>
+      <li class="nav-item">
+        <router-link class="nav-link" to="/taipei2" :class="{'active' : $route.path == '/taipei2'}">罷免二</router-link>
+      </li>
+      <li class="nav-item">
+        <router-link class="nav-link" to="/taichung1" :class="{'active' : $route.path == '/taichung1'}">補選一</router-link>
+      </li>
+      <li class="nav-item">
+        <router-link class="nav-link" to="/taichung2" :class="{'active' : $route.path == '/taichung2'}">補選二</router-link>
+      </li>
+    </ul>
+    <div class="content">
+      <router-view></router-view>
+    </div>
   </div>
 </template>
 
 <script>
   export default {
     name: "router",
-    props: {
-      visiBility: {
-        type: String,
-        required: true,
-      }
-    },
+
+    created() {
+
+    }
   }
 
 </script>
