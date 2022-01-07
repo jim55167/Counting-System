@@ -106,14 +106,14 @@
           })
       },
       getVotes(data) {
-        //頁面人數
-        const name = Array.from(new Set(data.map(item => {
-          return item.Name
+        //頁面人數(手機判斷)
+        const phone = Array.from(new Set(data.map(item => {
+          return item.Phone
         })))
-        this.stats.totalPerson = name.length
+        this.stats.totalPerson = phone.length
         //未登入人數
         const set = new Set()
-        const result = data.filter(item => !set.has(item.Name) ? set.add(item.Name) : false)
+        const result = data.filter(item => !set.has(item.Phone) ? set.add(item.Phone) : false)
         const login = result.filter(login => login.LoginDate === null)
         this.stats.notLogin = login.length
         //投開票所數
